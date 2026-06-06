@@ -1,4 +1,11 @@
+
 # Custom SubPage для Remnawave
+
+<p align="center">
+<picture>
+  <img alt="Demonstration Page" src="https://raw.githubusercontent.com/DeL1TMe/relaks-subpage/refs/heads/master/Demonstration.jpg" width="40%">
+</picture>
+</p>
 
 Кастомная страница подписки Remnawave: один экран со всем нужным пользователю.
 
