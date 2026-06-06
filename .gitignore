@@ -1,0 +1,7 @@
+.env
+node_modules/
+.ssh/
+*.pem
+terminal_log.txt
+.DS_Store
+Thumbs.db

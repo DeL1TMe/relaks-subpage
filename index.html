@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%- metaTitle %></title>
+  <meta name="description" content="<%- metaDescription %>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet" />
+  <!-- НАСТРОЙКА: favicon обновится из CONFIG / панели при загрузке -->
+  <link rel="icon" type="image/png" href="https://example.com/your-logo.png" id="favicon" />
+  <style>
+    :root {
+      --font-body: 'Montserrat', system-ui, sans-serif;
+      --font-display: 'Unbounded', system-ui, sans-serif;
+      --infinity: '∞';
+      --bg-top: #21170c;
+      --bg-bottom: #0a0807;
+      --text: #f4eadb;
+      --text-white: #ffffff;
+      --text-muted: #8b949e;
+      --text-secondary: rgba(244, 234, 219, 0.68);
+      --text-dim: rgba(244, 234, 219, 0.38);
+      --card: rgba(255, 248, 240, 0.02);
+      --card-inner: rgba(255, 248, 240, 0.04);
+      --border: rgba(60, 60, 67, 0.29);
+      --border-light: rgba(255, 255, 255, 0.08);
+      --status-ok: #b1f0bc;
+      --status-ok-text: #112417;
+      --status-warn: #ffd08a;
+      --status-warn-bar: #ffd08a;
+      --status-down: #fa5252;
+      --status-down-bar: #ff9d8f;
+      --status-maint-bar: #a3bffa;
+      --accent-blue: rgba(5, 80, 174, 0.15);
+      --accent-green: rgba(17, 99, 41, 0.15);
+      --accent-red: rgba(250, 82, 82, 0.15);
+      --accent-orange: rgba(125, 78, 0, 0.15);
+      --danger-bg: rgba(250, 82, 82, 0.2);
+      --danger-border: rgba(250, 82, 82, 0.15);
+      --radius-lg: 16px;
+      --radius-md: 8px;
+      --max-w: 800px;
+      --section-gap: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--text);
+      background:
+        radial-gradient(90% 49% at 50% 100%, rgba(77, 36, 23, 0.2) 0%, rgba(77, 36, 23, 0) 100%),
+        linear-gradient(149.49deg, var(--bg-top) 12.07%, var(--bg-bottom) 97.75%);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .glass {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(5px);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 20px;
+      margin-bottom: var(--section-gap);
+    }
+
+    .header img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-white);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+    }
+
+    .section { margin-bottom: var(--section-gap); }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-white);
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px;
+    }
+
+    @media (max-width: 560px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+
+    .info-cell {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      min-height: 64px;
+      overflow: visible;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .info-cell:hover {
+      background: rgba(255, 248, 240, 0.07);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+    }
+
+    .info-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .info-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .info-icon svg { width: 14px; height: 14px; }
+
+    .info-value {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-white);
+      line-height: 1.35;
+      overflow: visible;
+    }
+
+    .info-value.active { color: #86efac; }
+    .info-value.inactive { color: #fca5a5; }
+
+    .usage-pair {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      overflow: visible;
+    }
+
+    .usage-sep {
+      font-weight: 600;
+    }
+
+    .limit-infinity {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.2em;
+      height: 1.2em;
+      flex-shrink: 0;
+      color: currentColor;
+      overflow: visible;
+    }
+
+    .limit-infinity svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .status-panel { padding: 20px 20px 12px; }
+
+    .group-head {
+      border-bottom: 1px solid rgba(255, 245, 230, 0.07);
+      padding-bottom: 10px;
+      margin: 18px 0 12px;
+      position: relative;
+    }
+
+    .group-head h3 {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(244, 234, 219, 0.68);
+    }
+
+    .group-head::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, #dcc7a8, rgba(220, 199, 168, 0));
+      border-radius: 2px;
+    }
+
+    .monitor-card {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px 12px;
+      margin-bottom: 10px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .monitor-card:hover {
+      background: rgba(255, 248, 240, 0.07);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+    }
+
+    .monitor-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .uptime-badge {
+      display: inline-block;
+      box-sizing: border-box;
+      background: var(--status-ok);
+      color: var(--status-ok-text);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .uptime-badge-label {
+      display: inline-block;
+      min-width: 4ch;
+      text-align: center;
+    }
+
+    .uptime-badge.warn { background: var(--status-warn); color: #1a1208; }
+    .uptime-badge.down { background: var(--status-down); color: #fff; }
+
+    .monitor-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .uptime-bars {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 2px;
+      height: 18px;
+      align-items: stretch;
+      margin-bottom: 6px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .uptime-bar {
+      flex: 1 1 0%;
+      width: auto;
+      min-width: 0;
+      height: 100%;
+      align-self: stretch;
+      margin: 0;
+      padding: 0;
+      border: none;
+      box-shadow: none;
+      transform: none;
+      border-radius: 1px;
+      background: var(--status-ok);
+    }
+
+    @media (max-width: 640px) {
+      .uptime-bars {
+        height: 20px;
+        gap: 3px;
+      }
+    }
+
+    .uptime-bar.down { background: var(--status-down-bar); }
+    .uptime-bar.warn { background: var(--status-warn-bar); }
+    .uptime-bar.maint { background: var(--status-maint-bar); }
+    .uptime-bar.pending { background: rgba(177, 240, 188, 0.25); }
+
+    .monitor-scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .status-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 14px;
+      line-height: 1.45;
+    }
+
+    .devices-panel { padding: 20px; }
+
+    .devices-row {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 12px;
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+
+    .devices-count-col {
+      flex: 0 0 auto;
+      min-width: 88px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-right: 12px;
+      border-right: 1px solid var(--border);
+    }
+
+    .devices-count {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: visible;
+    }
+
+    .devices-action {
+      flex: 1 1 0;
+      min-width: 0;
+      align-self: stretch;
+      position: relative;
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 50px 10px 12px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      color: inherit;
+    }
+
+    .devices-action:hover:not(:disabled) {
+      background: rgba(255, 248, 240, 0.07);
+      border-color: var(--border-light);
+    }
+
+    .devices-action:disabled {
+      cursor: not-allowed;
+    }
+
+    .devices-action:disabled .devices-action-title,
+    .devices-action:disabled .devices-action-desc,
+    .devices-action:disabled .devices-action-icon {
+      opacity: 0.5;
+    }
+
+    .devices-action-text {
+      width: 100%;
+      text-align: center;
+    }
+
+    .devices-action-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+
+    .devices-action-desc {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      white-space: nowrap;
+    }
+
+    .devices-action-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--danger-border);
+      background: var(--danger-bg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .devices-action-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: #fa5252;
+    }
+
+    @media (max-width: 640px) {
+      .devices-row {
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .devices-count-col {
+        min-width: 72px;
+        padding-right: 8px;
+      }
+
+      .devices-action {
+        padding: 10px 44px 10px 8px;
+      }
+
+      .devices-action-title { font-size: 11px; }
+
+      .devices-action-desc {
+        font-size: 10px;
+        color: var(--text-secondary);
+        white-space: normal;
+      }
+
+      .devices-action-icon {
+        right: 8px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .devices-action-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .install-panel { padding: 20px; }
+
+    .install-toggle {
+      width: 100%;
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: var(--text-white);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .install-toggle:hover {
+      background: rgba(255, 248, 240, 0.07);
+      border-color: var(--border-light);
+    }
+
+    .install-body {
+      margin-top: 12px;
+      display: none;
+    }
+
+    .install-body.open { display: block; }
+
+    .app-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .app-tab {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: var(--radius-md);
+      padding: 8px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .app-tab:hover { color: var(--text); border-color: var(--border-light); }
+
+    .app-tab.active {
+      color: var(--status-ok);
+      border-color: rgba(177, 240, 188, 0.45);
+      background: rgba(177, 240, 188, 0.08);
+    }
+
+    .app-panel { display: none; }
+    .app-panel.active { display: block; }
+
+    .app-panel-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .install-step {
+      border-left: 2px solid rgba(177, 240, 188, 0.4);
+      padding: 8px 0 8px 14px;
+      margin-bottom: 12px;
+    }
+
+    .install-step h4 {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 4px;
+    }
+
+    .install-step p {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .install-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(177, 240, 188, 0.15);
+      border: 1px solid rgba(177, 240, 188, 0.35);
+      color: var(--status-ok);
+      border-radius: var(--radius-md);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn:hover { background: rgba(177, 240, 188, 0.22); }
+
+    .support-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .support-link a { color: var(--status-ok); text-decoration: none; }
+
+    .hidden { display: none !important; }
+
+    .loading, .error-box {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .error-box { color: #fca5a5; }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 8, 7, 0.95);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="page" id="app">
+    <header class="header glass">
+      <img id="logo" src="https://example.com/your-logo.png" alt="YOUR_BRAND_NAME" />
+      <div class="brand" id="brand-title">YOUR_BRAND_NAME</div>
+    </header>
+
+    <section class="section glass info-grid" id="user-section">
+      <div class="info-cell">
+        <div class="info-label">
+          <span class="info-icon" style="background: var(--accent-blue)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <span id="lbl-username">Имя пользователя</span>
+        </div>
+        <div class="info-value" id="val-username">—</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">
+          <span class="info-icon" style="background: var(--accent-green)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <span id="lbl-status">Статус</span>
+        </div>
+        <div class="info-value" id="val-status">—</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">
+          <span class="info-icon" style="background: var(--accent-red)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </span>
+          <span id="lbl-expires">Истекает</span>
+        </div>
+        <div class="info-value" id="val-expires">—</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">
+          <span class="info-icon" style="background: var(--accent-orange)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </span>
+          <span id="lbl-traffic">Трафик</span>
+        </div>
+        <div class="info-value" id="val-traffic">—</div>
+      </div>
+    </section>
+
+    <section class="section glass install-panel" id="install-section">
+      <button type="button" class="install-toggle" id="install-toggle">
+        <span id="install-title">Установка</span>
+        <span id="install-chevron">▼</span>
+      </button>
+      <div class="install-body" id="install-body"></div>
+    </section>
+
+    <section class="section glass status-panel">
+      <h2 class="section-title">Статус серверов</h2>
+      <div id="status-content">
+        <div class="loading">Загрузка статуса…</div>
+      </div>
+      <div class="status-footer" id="status-footer"></div>
+    </section>
+
+    <section class="section glass devices-panel" id="devices-section">
+      <div class="devices-row">
+        <div class="devices-count-col">
+          <div class="info-label">
+            <span class="info-icon" style="background: var(--accent-blue)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </span>
+            <span>Устройства</span>
+          </div>
+          <div class="devices-count" id="devices-count">—</div>
+        </div>
+        <button type="button" class="devices-action" id="delete-all-btn" disabled>
+          <div class="devices-action-text">
+            <div class="devices-action-title">Удалить все устройства</div>
+            <div class="devices-action-desc">Очистка списка HWID освобождает место под устройства</div>
+          </div>
+          <span class="devices-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <p class="support-link hidden" id="support-wrap">
+      Поддержка: <a id="support-link" href="#" target="_blank" rel="noopener">Telegram</a>
+    </p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // НАСТРОЙКА: замените значения ниже (см. SETUP.md)
+    const CONFIG = {
+      statusSlug: 'YOUR_STATUS_SLUG',
+      statusApiBase: '/status-api',
+      hwidApiBase: '/hwid-api',
+      branding: {
+        title: 'YOUR_BRAND_NAME',
+        logoUrl: 'https://example.com/your-logo.png',
+        supportUrl: 'https://t.me/YOUR_SUPPORT',
+      },
+    };
+
+    const INFINITY = '∞';
+    const INFINITY_HTML =
+      '<span class="limit-infinity" aria-hidden="true">' +
+      '<svg viewBox="-4 -4 32 32" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M12 12c-2-2.67-4.67-4-8-4a4 4 0 1 0 0 8c2.67 0 5.33-1.33 8-4"/>' +
+      '<path d="M12 12c2 2.67 4.67 4 8 4a4 4 0 0 0 0-8c-2.67 0-5.33 1.33-8 4"/>' +
+      '</svg></span>';
+
+    function formatUsageAmount(value) {
+      if (value === null || value === undefined || value === '') return '0';
+      return String(value);
+    }
+
+    function formatLimitAmount(value) {
+      if (value === null || value === undefined) return INFINITY;
+      if (value === '∞') return INFINITY;
+      const str = String(value).trim();
+      if (str === '0') return INFINITY;
+      const num = Number(value);
+      if (!Number.isNaN(num) && num === 0) return INFINITY;
+      return str;
+    }
+
+    function setUsagePair(el, used, limit) {
+      const usedStr = formatUsageAmount(used);
+      const limitStr = formatLimitAmount(limit);
+      if (limitStr === INFINITY) {
+        el.innerHTML =
+          `<span class="usage-pair"><span class="usage-amount">${usedStr}</span>` +
+          `<span class="usage-sep">/</span>${INFINITY_HTML}</span>`;
+        return;
+      }
+      el.textContent = `${usedStr} / ${limitStr}`;
+    }
+
+    function resolveTrafficLimit(user) {
+      const human = user.trafficLimit;
+      if (human !== undefined && human !== null && human !== '') return human;
+      if (user.trafficLimitBytes !== undefined && user.trafficLimitBytes !== null) {
+        return user.trafficLimitBytes;
+      }
+      return '0';
+    }
+
+    let panelData = null;
+    let appConfig = null;
+    let refreshTimer = null;
+    let refreshCountdown = null;
+    let statusRefreshIntervalSec = 300;
+    let statusLastUpdated = null;
+    let secondsToRefresh = statusRefreshIntervalSec;
+    let cachedStatusConfig = null;
+    let cachedStatusHeartbeat = null;
+    let statusResizeTimer = null;
+
+    function getShortUuid() {
+      const parts = window.location.pathname.split('/').filter(Boolean);
+      return parts[parts.length - 1] || '';
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    function t(key, fallback) {
+      const tr = appConfig?.baseTranslations?.[key];
+      if (tr?.ru) return tr.ru;
+      if (typeof tr === 'object' && tr) return Object.values(tr)[0];
+      return fallback || key;
+    }
+
+    function loadPanelData() {
+      try {
+        panelData = JSON.parse(atob('<%- panelData %>'));
+      } catch (e) {
+        console.error(e);
+        panelData = { response: { isFound: false } };
+      }
+    }
+
+    async function loadAppConfig() {
+      try {
+        const res = await fetch('/assets/.app-config-v2.json', { credentials: 'same-origin' });
+        if (res.ok) {
+          appConfig = await res.json();
+        } else {
+          console.warn('App config HTTP', res.status);
+        }
+      } catch (e) {
+        console.warn('App config not loaded', e);
+      }
+    }
+
+    function getUserPayload() {
+      const data = panelData?.response || panelData;
+      if (!data || data.isFound === false) return null;
+      return data.user || data;
+    }
+
+    function statusText(status) {
+      const map = {
+        ACTIVE: t('active', 'Активна'),
+        DISABLED: t('inactive', 'Неактивна'),
+        EXPIRED: t('expired', 'Истекла'),
+        LIMITED: 'Ограничена',
+      };
+      return map[status] || status || '—';
+    }
+
+    function formatExpires(user) {
+      if (!user?.expiresAt) return t('indefinitely', 'Бессрочно');
+      const d = new Date(user.expiresAt);
+      if (Number.isNaN(d.getTime())) return user.expiresAt;
+      return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function renderUser() {
+      const user = getUserPayload();
+      if (!user) {
+        document.getElementById('val-username').textContent = '—';
+        return;
+      }
+
+      document.getElementById('lbl-username').textContent = t('name', 'Имя пользователя');
+      document.getElementById('lbl-status').textContent = t('status', 'Статус');
+      document.getElementById('lbl-expires').textContent = t('expires', 'Истекает');
+      document.getElementById('lbl-traffic').textContent = t('bandwidth', 'Трафик');
+
+      document.getElementById('val-username').textContent = user.username || '—';
+
+      const statusEl = document.getElementById('val-status');
+      const st = user.userStatus || user.status;
+      statusEl.textContent = statusText(st);
+      statusEl.className = 'info-value ' + (st === 'ACTIVE' ? 'active' : 'inactive');
+
+      document.getElementById('val-expires').textContent = formatExpires(user);
+      setUsagePair(
+        document.getElementById('val-traffic'),
+        user.trafficUsed ?? user.trafficUsedBytes ?? '0',
+        resolveTrafficLimit(user),
+      );
+    }
+
+    function calcUptimePercent(heartbeats) {
+      if (!heartbeats?.length) return 100;
+      const up = heartbeats.filter((h) => h.status === 1).length;
+      return Math.round((up / heartbeats.length) * 100);
+    }
+
+    function formatStatusTimestamp(date) {
+      if (!date) return '—';
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+
+    function getUptimeBarLimit() {
+      return window.matchMedia('(max-width: 640px)').matches ? 40 : 60;
+    }
+
+    function sliceHeartbeatsForBars(heartbeats) {
+      const list = Array.isArray(heartbeats) ? heartbeats : [];
+      if (!list.length) return [];
+      return list.slice(-getUptimeBarLimit());
+    }
+
+    function renderBars(heartbeats) {
+      const wrap = document.createElement('div');
+      wrap.className = 'uptime-bars';
+      const list = sliceHeartbeatsForBars(heartbeats);
+      if (!list.length) {
+        const limit = getUptimeBarLimit();
+        for (let i = 0; i < limit; i++) {
+          const b = document.createElement('div');
+          b.className = 'uptime-bar pending';
+          wrap.appendChild(b);
+        }
+        return wrap;
+      }
+      list.forEach((h) => {
+        const b = document.createElement('div');
+        b.className = 'uptime-bar';
+        if (h.status === 0) b.classList.add('down');
+        else if (h.status === 2) b.classList.add('warn');
+        else if (h.status === 3) b.classList.add('maint');
+        wrap.appendChild(b);
+      });
+      return wrap;
+    }
+
+    function badgeClass(pct) {
+      if (pct >= 99) return '';
+      if (pct >= 90) return 'warn';
+      return 'down';
+    }
+
+    function renderMonitor(name, heartbeats) {
+      const pct = calcUptimePercent(heartbeats);
+      const card = document.createElement('div');
+      card.className = 'monitor-card';
+      card.innerHTML = `
+        <div class="monitor-top">
+          <span class="uptime-badge ${badgeClass(pct)}"><span class="uptime-badge-label">${pct}%</span></span>
+          <span class="monitor-name"></span>
+        </div>
+      `;
+      card.querySelector('.monitor-name').textContent = name;
+      card.appendChild(renderBars(heartbeats));
+      const scale = document.createElement('div');
+      scale.className = 'monitor-scale';
+      scale.innerHTML = '<span>1h</span><span>сейчас</span>';
+      card.appendChild(scale);
+      return card;
+    }
+
+    function renderStatusGroups(config, heartbeatData) {
+      const root = document.getElementById('status-content');
+      root.innerHTML = '';
+      const hbMap = heartbeatData?.heartbeatList || heartbeatData?.heartbeats || {};
+      const groups = config?.publicGroupList || [];
+
+      if (!groups.length) {
+        root.innerHTML = '<div class="error-box">Нет данных статуса. Проверьте прокси /status-api и slug в CONFIG.</div>';
+        return;
+      }
+
+      groups.forEach((group) => {
+        const head = document.createElement('div');
+        head.className = 'group-head';
+        head.innerHTML = `<h3>${group.name || 'Группа'}</h3>`;
+        root.appendChild(head);
+
+        (group.monitorList || []).forEach((mon) => {
+          const id = mon.id ?? mon;
+          const name = mon.name || (typeof mon === 'object' ? mon.name : `Monitor ${id}`);
+          const list = Array.isArray(hbMap[id]) ? hbMap[id] : hbMap[String(id)];
+          root.appendChild(renderMonitor(name, list));
+        });
+      });
+    }
+
+    function updateStatusFooter() {
+      const ts = formatStatusTimestamp(statusLastUpdated);
+      const mins = Math.floor(secondsToRefresh / 60);
+      const secs = secondsToRefresh % 60;
+      document.getElementById('status-footer').innerHTML =
+        `Последнее обновление: ${ts}<br>Обновление через: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    async function loadStatus() {
+      const slug = CONFIG.statusSlug;
+      const base = CONFIG.statusApiBase.replace(/\/$/, '');
+      try {
+        const [cfgRes, hbRes] = await Promise.all([
+          fetch(`${base}/api/status-page/${slug}`),
+          fetch(`${base}/api/status-page/heartbeat/${slug}`),
+        ]);
+        if (!cfgRes.ok || !hbRes.ok) throw new Error('HTTP error');
+        const config = await cfgRes.json();
+        const heartbeat = await hbRes.json();
+        const intervalSec = Number(config?.config?.autoRefreshInterval ?? config?.autoRefreshInterval);
+        statusRefreshIntervalSec = Math.max(5, intervalSec > 0 ? intervalSec : statusRefreshIntervalSec);
+        statusLastUpdated = new Date();
+        cachedStatusConfig = config;
+        cachedStatusHeartbeat = heartbeat;
+        renderStatusGroups(config, heartbeat);
+        secondsToRefresh = statusRefreshIntervalSec;
+      } catch (e) {
+        console.error(e);
+        document.getElementById('status-content').innerHTML =
+          '<div class="error-box">Не удалось загрузить статус серверов. Ведём работы по исправлению.</div>';
+      }
+      updateStatusFooter();
+    }
+
+    function hwidDevicesUrl(shortUuid) {
+      const user = getUserPayload();
+      const params = new URLSearchParams();
+      if (shortUuid) params.set('shortUuid', shortUuid);
+      if (user?.username) params.set('username', user.username);
+      return `${CONFIG.hwidApiBase}/devices?${params.toString()}`;
+    }
+
+    async function loadDevices() {
+      const shortUuid = getShortUuid();
+      const countEl = document.getElementById('devices-count');
+      const btn = document.getElementById('delete-all-btn');
+      if (!shortUuid) {
+        countEl.textContent = '—';
+        return;
+      }
+      try {
+        const res = await fetch(hwidDevicesUrl(shortUuid));
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || `hwid fetch failed (${res.status})`);
+        }
+        const data = await res.json();
+        const deviceCount = data.count ?? data.devices?.length ?? 0;
+        setUsagePair(countEl, deviceCount, data.limit ?? '0');
+        countEl.title = '';
+        btn.disabled = !(Number(deviceCount) > 0);
+      } catch (e) {
+        console.warn(e);
+        countEl.textContent = 'ошибка';
+        countEl.title = e.message || 'Не удалось загрузить устройства';
+        btn.disabled = true;
+      }
+    }
+
+    async function deleteAllDevices() {
+      const shortUuid = getShortUuid();
+      if (!shortUuid) return;
+      if (!confirm('Удалить все устройства из списка HWID? После этого заново добавьте подписку в приложении.')) return;
+      try {
+        const res = await fetch(hwidDevicesUrl(shortUuid), { method: 'DELETE' });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || `delete failed (${res.status})`);
+        }
+        showToast('Все устройства удалены');
+        await loadDevices();
+      } catch (e) {
+        showToast(e.message || 'Ошибка удаления устройств');
+        console.error(e);
+      }
+    }
+
+    function detectPlatform() {
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.includes('android')) return 'android';
+      if (/iphone|ipad|ipod/.test(ua)) return 'ios';
+      if (ua.includes('win')) return 'windows';
+      if (ua.includes('mac')) return 'macos';
+      if (ua.includes('linux')) return 'linux';
+      return 'windows';
+    }
+
+    function replaceTemplate(link, subscriptionUrl, username) {
+      return link
+        .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(subscriptionUrl || ''))
+        .replace(/\{\{USERNAME\}\}/g, encodeURIComponent(username || ''));
+    }
+
+    function normalizeBrandTitle(title) {
+      return (title || CONFIG.branding.title).trim();
+    }
+
+    function renderBranding() {
+      const branding = {
+        ...CONFIG.branding,
+        ...(appConfig?.brandingSettings || {}),
+      };
+      const title = normalizeBrandTitle(branding.title);
+      const logo = branding.logoUrl || CONFIG.branding.logoUrl;
+      const support = branding.supportUrl || CONFIG.branding.supportUrl;
+
+      document.getElementById('brand-title').textContent = title;
+      const logoEl = document.getElementById('logo');
+      logoEl.src = logo;
+      logoEl.alt = title;
+      logoEl.style.display = logo ? '' : 'none';
+      const faviconEl = document.getElementById('favicon');
+      if (faviconEl && logo) faviconEl.href = logo;
+      if (support) {
+        document.getElementById('support-wrap').classList.remove('hidden');
+        document.getElementById('support-link').href = support;
+      }
+    }
+
+    function renderAppBlocks(container, app, subUrl, username) {
+      container.innerHTML = '';
+      (app.blocks || []).forEach((block) => {
+        const step = document.createElement('div');
+        step.className = 'install-step';
+        const title = block.title?.ru || block.title?.en || '';
+        const desc = block.description?.ru || block.description?.en || '';
+        step.innerHTML = `<h4>${title}</h4><p>${desc}</p>`;
+        const btns = document.createElement('div');
+        btns.className = 'install-btns';
+        (block.buttons || []).forEach((btn) => {
+          const a = document.createElement('a');
+          a.className = 'btn';
+          let href = btn.link || '#';
+          if (btn.type === 'subscriptionLink') {
+            href = replaceTemplate(href, subUrl, username);
+          }
+          a.href = href;
+          a.textContent = btn.text?.ru || btn.text?.en || 'Открыть';
+          if (btn.type === 'external') a.target = '_blank';
+          btns.appendChild(a);
+        });
+        if (btns.childElementCount) step.appendChild(btns);
+        container.appendChild(step);
+      });
+    }
+
+    function renderInstall() {
+      const body = document.getElementById('install-body');
+      const user = getUserPayload();
+      const subUrl = panelData?.response?.subscriptionUrl || panelData?.subscriptionUrl || '';
+      if (!appConfig?.platforms) {
+        body.innerHTML = '<p class="loading">Импортируйте subpage-config.json в панель Remnawave.</p>';
+        return;
+      }
+      const platform = detectPlatform();
+      const plat = appConfig.platforms[platform];
+      if (!plat?.apps?.length) {
+        body.innerHTML = '<p class="loading">Нет инструкций для этой платформы.</p>';
+        return;
+      }
+
+      body.innerHTML = '';
+      const platformLabel = document.createElement('p');
+      platformLabel.className = 'app-panel-title';
+      platformLabel.textContent = plat.displayName?.ru || platform;
+      body.appendChild(platformLabel);
+
+      const apps = plat.apps;
+      if (apps.length === 1) {
+        const panel = document.createElement('div');
+        panel.className = 'app-panel active';
+        body.appendChild(panel);
+        renderAppBlocks(panel, apps[0], subUrl, user?.username);
+      } else {
+        const tabs = document.createElement('div');
+        tabs.className = 'app-tabs';
+        body.appendChild(tabs);
+
+        const panelsWrap = document.createElement('div');
+        body.appendChild(panelsWrap);
+
+        const defaultIdx = Math.max(0, apps.findIndex((a) => a.featured));
+
+        apps.forEach((app, idx) => {
+          const tab = document.createElement('button');
+          tab.type = 'button';
+          tab.className = 'app-tab' + (idx === defaultIdx ? ' active' : '');
+          tab.textContent = app.name;
+          tab.addEventListener('click', () => {
+            tabs.querySelectorAll('.app-tab').forEach((el) => el.classList.remove('active'));
+            panelsWrap.querySelectorAll('.app-panel').forEach((el) => el.classList.remove('active'));
+            tab.classList.add('active');
+            panel.classList.add('active');
+          });
+
+          const panel = document.createElement('div');
+          panel.className = 'app-panel' + (idx === defaultIdx ? ' active' : '');
+          renderAppBlocks(panel, app, subUrl, user?.username);
+
+          tabs.appendChild(tab);
+          panelsWrap.appendChild(panel);
+        });
+      }
+
+      document.getElementById('install-title').textContent = t('installationGuideHeader', 'Установка');
+    }
+
+    function bindUi() {
+      document.getElementById('install-toggle').addEventListener('click', () => {
+        document.getElementById('install-body').classList.toggle('open');
+        document.getElementById('install-chevron').textContent =
+          document.getElementById('install-body').classList.contains('open') ? '▲' : '▼';
+      });
+      document.getElementById('delete-all-btn').addEventListener('click', deleteAllDevices);
+      window.addEventListener('resize', () => {
+        if (!cachedStatusConfig || !cachedStatusHeartbeat) return;
+        clearTimeout(statusResizeTimer);
+        statusResizeTimer = setTimeout(() => {
+          renderStatusGroups(cachedStatusConfig, cachedStatusHeartbeat);
+        }, 200);
+      });
+    }
+
+    function startRefreshTimers() {
+      if (refreshTimer) clearInterval(refreshTimer);
+      if (refreshCountdown) clearInterval(refreshCountdown);
+      refreshTimer = setInterval(loadStatus, statusRefreshIntervalSec * 1000);
+      refreshCountdown = setInterval(() => {
+        if (secondsToRefresh > 0) secondsToRefresh -= 1;
+        updateStatusFooter();
+      }, 1000);
+    }
+
+    async function init() {
+      loadPanelData();
+      bindUi();
+      await loadAppConfig();
+      renderBranding();
+      renderUser();
+      renderInstall();
+      await Promise.all([loadStatus(), loadDevices()]);
+      startRefreshTimers();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

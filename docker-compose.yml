@@ -1,0 +1,32 @@
+services:
+  remnawave-subscription-page:
+    image: remnawave/subscription-page:latest
+    container_name: remnawave-subscription-page
+    hostname: remnawave-subscription-page
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./index.html:/opt/app/frontend/index.html:ro
+    ports:
+      - '127.0.0.1:3010:3010'
+    networks:
+      - remnawave-network
+
+  hwid-proxy:
+    build: ./hwid-proxy
+    container_name: hwid-proxy
+    hostname: hwid-proxy
+    restart: always
+    env_file:
+      - .env
+    environment:
+      HWID_PROXY_PORT: 3020
+    ports:
+      - '127.0.0.1:3020:3020'
+    networks:
+      - remnawave-network
+
+networks:
+  remnawave-network:
+    external: true

@@ -1,0 +1,13 @@
+# НАСТРОЙКА: замените STATUS_HOST; site block вашего SUB-домена
+
+handle /status-api/* {
+    uri strip_prefix /status-api
+    reverse_proxy https://STATUS_HOST {
+        header_up Host STATUS_HOST
+    }
+}
+
+handle /hwid-api/* {
+    uri strip_prefix /hwid-api
+    reverse_proxy hwid-proxy:3020
+}
